@@ -9,8 +9,13 @@ def index():
 
 
 @app.route("/employees")
-def second():
+def second_page():
     return render_template("second.html")
+
+
+@app.route("/contacts")
+def third_page():
+    return render_template("third.html")
 
 
 if __name__ == "__main__":
