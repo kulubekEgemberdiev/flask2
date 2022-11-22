@@ -71,6 +71,7 @@ def register():
             db.session.commit()
         except:
             db.session.rollback()
+    return render_template("register.html")
 
 
 if __name__ == "__main__":

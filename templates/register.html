@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Регистрация{% endblock %}
+{% block pagetitle %}Регистрация{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <form action="" method="post" class="form-contact">
+        <p><input type="text" name="first_name" value="" placeholder="Ваше имя." required style="width: 400px;"></p>
+        <p><input type="text" name="last_name" value="" placeholder="Ваша фамилия." required style="width: 400px;"></p>
+        <p><input type="text" name="age" value="" placeholder="Ваш возраст." required style="width: 400px;"></p>
+        <p><input type="text" name="country" value="" placeholder="Страна." required style="width: 400px;"></p>
+        <p><input type="email" name="email" value="" placeholder="Электронная почта." required style="width: 400px;">
+        </p>
+        <p><input type="password" name="password" value="" placeholder="Новый пароль." required style="width: 400px;">
+        </p>
+        <p><input type="password" name="password2" value="" placeholder="Повторите пароль." required
+                  style="width: 400px;"></p>
+
+        <p>
+        <input type="submit" class="btn btn-success" value="Регистрация">
+    </p>
+    </form>
+</div>
+
+{% endblock %}
