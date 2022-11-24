@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Авторизация{% endblock %}
+{% block pagetitle %}Авторизация{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <form action="" method="post" class="form-contact">
+        <p><input type="email" name="email" value="" placeholder="Электронная почта." required style="width: 400px;">
+        </p>
+        <p><input type="password" name="password" value="" placeholder="Пароль." required style="width: 400px;">
+        </p>
+        <p>
+        <input type="submit" class="btn btn-success" value="Войти">
+    </p>
+    </form>
+</div>
+
+{% endblock %}

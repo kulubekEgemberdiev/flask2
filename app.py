@@ -1,14 +1,22 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+app.config['SECRET_KEY'] = '1de413123ecdd3f7765b65170b90a1cefda37679'
 db = SQLAlchemy(app)
+manager = LoginManager(app)
 
 
-class Users(db.Model):
+@manager.user_loader
+def load_user(user_id):
+    return Users.query.get(user_id)
+
+
+class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(500), nullable=True)
@@ -32,6 +40,7 @@ class Profiles(db.Model):
 
 
 @app.route("/")
+@login_required
 def index():
     return render_template("index.html")
 
@@ -49,6 +58,10 @@ def third_page():
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("page_not_found.html")
+
+@app.errorhandler(401)
+def page_not_found(error):
+    return render_template("page_401.html")
 
 
 @app.route("/register", methods=("POST", "GET"))
@@ -72,6 +85,25 @@ def register():
         except:
             db.session.rollback()
     return render_template("register.html")
+
+
+@app.route('/login', methods=("POST", "GET"))
+def login():
+    email = request.form.get('email')
+    password = request.form.get('password')
+    if email and password:
+        user = Users.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for('index'))
+    return render_template("login.html")
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
