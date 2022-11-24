@@ -59,6 +59,7 @@ def third_page():
 def page_not_found(error):
     return render_template("page_not_found.html")
 
+
 @app.errorhandler(401)
 def page_not_found(error):
     return render_template("page_401.html")
@@ -104,6 +105,31 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+class Articles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True)
+    description = db.Column(db.String(2000), nullable=True)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"Articles {self.title}."
+
+
+@app.route("/add-article", methods=("POST", "GET"))
+@login_required
+def articles():
+    if request.method == "POST":
+        try:
+            title = request.form['title']
+            description = request.form['desc']
+            article = Articles(title=title, description=description)
+            db.session.add(article)
+            db.session.commit()
+        except:
+            db.session.rollback()
+    return render_template("article.html")
 
 
 if __name__ == "__main__":

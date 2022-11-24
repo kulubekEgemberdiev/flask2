@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Создание статьи{% endblock %}
+{% block pagetitle %}Создание статьи{% endblock %}
+
+{% block content %}
+
+<div class="text-center">
+    <form action="" method="post" class="form-contact">
+        <p><input type="text" name="title" value="" placeholder="Заголовок статьи" required style="width: 400px;">
+        </p>
+        <p><input type="text" name="desc" value="" placeholder="Содержание статьи" required
+                  style="width: 400px; height: 200px;">
+        </p>
+        <p>
+            <input type="submit" class="btn btn-success" value="Создать">
+        </p>
+    </form>
+</div>
+
+{% endblock %}
